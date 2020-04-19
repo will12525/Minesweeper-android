@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_easy"
+        android:orderInCategory="100"
+        android:title="@string/action_easy"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_medium"
+        android:orderInCategory="100"
+        android:title="@string/action_medium"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_hard"
+        android:orderInCategory="100"
+        android:title="@string/action_hard"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_custom"
+        android:orderInCategory="100"
+        android:title="@string/action_custom"
+        app:showAsAction="never" />
+</menu>
