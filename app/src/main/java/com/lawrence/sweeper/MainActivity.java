@@ -1,10 +1,10 @@
 package com.lawrence.sweeper;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.DisplayMetrics;
 import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.Menu;
@@ -15,12 +15,6 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
-import com.lawrence.sweeper.ui.home.GameCanvas;
-
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +27,12 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.lawrence.sweeper.ui.home.GameCanvas;
+
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -41,11 +41,19 @@ public class MainActivity extends AppCompatActivity {
     boolean flagSet = false;
     boolean fabRight = true;
 
+    SharedPreferences preferences;
+    SharedPreferences.Editor preferencesEditor;
+    boolean fromOrientation = false;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /*preferencesEditor = preferences.edit();
+        preferences = this.getSharedPreferences("myPrefs", MODE_PRIVATE);
+        fromOrientation = preferences.getString("fromOrient", false);
+*/
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -60,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(savedInstanceState != null){
             gameLogic = savedInstanceState.getParcelable("gameLogic");
-            if(gameLogic!=null) {
+            if(gameLogic!=null && gameLogic.gameOn()) {
                 chronometer.setBase(savedInstanceState.getLong("chronoTime"));
                 if (!gameLogic.isGameOver()) {
                     chronometer.start();
@@ -134,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnDragListener(new View.OnDragListener() {
             @Override
             public boolean onDrag(View view, DragEvent dragEvent) {
-
                 return false;
             }
         });
@@ -143,13 +150,12 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_game, R.id.nav_settings, R.id.nav_records)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
 
         resetButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -231,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+
     public void onResume() {
         super.onResume();
 
@@ -240,9 +247,10 @@ public class MainActivity extends AppCompatActivity {
         return gameLogic;
     }
 
-    private void resetGame(){
+    public void resetGame(){
         GameCanvas model = findViewById(R.id.custom_canvas);
-        if(model != null) {
+        if(model != null && gameLogic != null && chronometer != null) {
+            chronometer.stop();
             gameLogic.reset();
             model.resetView();
             chronometer.setBase(SystemClock.elapsedRealtime());
@@ -257,5 +265,27 @@ public class MainActivity extends AppCompatActivity {
         outState.putBoolean("fab_icon", flagSet);
         outState.putBoolean("fab_side", fabRight);
     }
+
+    public void stopGame(){
+        chronometer.stop();
+    }
+
+    /*@Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        super.onRetainNonConfigurationInstance();
+        preferencesEditor.putBoolean("fromOrient", true);
+        preferencesEditor.commit();
+        return null;
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(fromOrientation) {
+            preferencesEditor.putBoolean("fromOrient", false);
+            preferencesEditor.commit();
+        }
+        super.onDestroy();
+    }*/
+
 
 }

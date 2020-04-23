@@ -2,7 +2,6 @@ package com.lawrence.sweeper.ui.home;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,19 +10,15 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.view.WindowManager;
+
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.lawrence.sweeper.GameLogic;
 import com.lawrence.sweeper.MainActivity;
 import com.lawrence.sweeper.R;
-
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 public class GameCanvas extends View {
 
@@ -409,13 +404,16 @@ public class GameCanvas extends View {
     }
 
     public void resetView(){
-        mScaleFactor = 1.f;
-        blockSize = (int)(defaultBlockSize * mScaleFactor);
-        xPlacing = (displaySize.x-getTotalWidth(blockSize))/2;
-        yPlacing = (displaySize.y-getTotalHeight(blockSize))/2;
-        handleScaling(blockSize);
+        if(displaySize != null) {
+            mScaleFactor = 1.f;
+            blockSize = (int)(defaultBlockSize * mScaleFactor);
+            xPlacing = (displaySize.x - getTotalWidth(blockSize)) / 2;
+            yPlacing = (displaySize.y - getTotalHeight(blockSize)) / 2;
+            handleScaling(blockSize);
 
-        invalidate();
+            invalidate();
+        }
+
     }
 
     public void setDisplaySize(int x, int y){

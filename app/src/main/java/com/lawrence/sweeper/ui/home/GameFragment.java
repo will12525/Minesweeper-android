@@ -5,28 +5,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
-import com.lawrence.sweeper.R;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.lawrence.sweeper.R;
+
 public class GameFragment extends Fragment {
 
-    private GameCanvas gameCanvas;
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState){
+   /* @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setRetainInstance(true);
-    }
+        MainActivity mainActivity = (MainActivity)getActivity();
+        if(mainActivity!=null){
+            mainActivity.resetGame();
+        }
+    }*/
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //homeViewModel = ViewModel.of(this).get(HomeViewModel.class);
 
         final View root = inflater.inflate(R.layout.fragment_canvas, container, false);
-        gameCanvas = root.findViewById(R.id.custom_canvas);
+        final GameCanvas gameCanvas = root.findViewById(R.id.custom_canvas);
 
         root.post(new Runnable() {
             @Override
@@ -46,8 +46,14 @@ public class GameFragment extends Fragment {
         return root;
     }
 
+   /* @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        MainActivity mainActivity = (MainActivity)getActivity();
+        if(mainActivity!=null){
+            mainActivity.resetGame();
+        }
+    }*/
 
-    public String testCall(){
-        return "Hello World!";
-    }
+
 }

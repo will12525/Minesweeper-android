@@ -1,16 +1,16 @@
-package com.lawrence.sweeper.ui.gallery;
+package com.lawrence.sweeper.ui.records;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class GalleryViewModel extends ViewModel {
+public class RecordsViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public GalleryViewModel() {
+    public RecordsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is gallery fragment");
+        mText.setValue("This is records fragment");
     }
 
     LiveData<String> getText() {

@@ -3,7 +3,6 @@ package com.lawrence.sweeper;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -227,6 +226,9 @@ public class GameLogic implements Parcelable {
     }
     boolean isGameOver(){
         return gameOver;
+    }
+    boolean gameOn() {
+        return boardSet;
     }
 
     public int[][] getGridArray(){
